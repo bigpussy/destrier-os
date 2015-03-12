@@ -6,3 +6,4 @@ DW 1
 DB 1
 DW 2
 ORG 0x7c00
+DB 0x11
