@@ -1,13 +1,15 @@
 ;hello-os
 ;TAB = 4 
 ;以下这段是标准FAT12格式软盘专用的代码
-
-;DB 0xeb,0x4e,0x90
+;DB 0xeb,0x4e
 ;程序主体
 	ORG 0x7c00   ;指明程序的装载地址
 ;以下的记述用户标准FAT12格式的软盘
 JMP entry
-DB 0x90 
+
+
+
+DB 0x90
 
 DB "HELLOIPL"  ;启动区的名称可以是任意的字符串(8字节)
 DW 512  ;每个扇区(sector)的大小(必须为512字节)
@@ -27,6 +29,7 @@ DD 0xffffffff ;(可能是)卷标号码
 DB "HELLO-OS   " ;磁盘的名称(11字节)
 DB "FAT12   "    ;磁盘格式名称(8字节)
 RESB 18  ;先空出18字节
+
 
 
 
@@ -56,7 +59,7 @@ fin:
 ;信息显示部分
 msg:
 	DB 0x0a,0x0a ;换行2次
-	DB "hello,world"
+	DB "hello,yanglei"
 	DB 0x0a      ;换行
 	DB 0
 RESB 0x7dfe-$  ;填写0x00,直到0x001fe
