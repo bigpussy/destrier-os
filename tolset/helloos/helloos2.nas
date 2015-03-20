@@ -1,2 +1,5 @@
-dd 0x12345678
-ORG 0x7c00
+org 0x20
+start:
+MOV  AX,0x11
+
+jmp start
