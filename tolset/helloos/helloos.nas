@@ -49,7 +49,7 @@ putloop:
 	
 	JE fin
 	MOV AH,0x0e  ;显示一个文字
-	MOV BX,15    ;指定字符颜色
+	MOV BX,16    ;指定字符颜色
 	INT 0x10     ;调用显卡BIOS
 	JMP putloop
 
@@ -59,7 +59,7 @@ fin:
 ;信息显示部分
 msg:
 	DB 0x0a,0x0a ;换行2次
-	DB "hello,yanglei"
+	DB "hello,master"
 	DB 0x0a      ;换行
 	DB 0
 RESB 0x7dfe-$  ;填写0x00,直到0x001fe
