@@ -30,7 +30,7 @@ DB "HELLO-OS   " ;磁盘的名称(11字节)
 DB "FAT12   "    ;磁盘格式名称(8字节)
 RESB 18  ;先空出18字节
 
-
+ 
 
 
 ;程序核心
@@ -59,7 +59,7 @@ fin:
 ;信息显示部分
 msg:
 	DB 0x0a,0x0a ;换行2次
-	DB "hello,master"
+	DB "hello,yangchao!"
 	DB 0x0a      ;换行
 	DB 0
 RESB 0x7dfe-$  ;填写0x00,直到0x001fe
