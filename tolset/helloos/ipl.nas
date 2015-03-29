@@ -42,6 +42,36 @@ entry:
 	MOV ES,AX
 	MOV SI,msg
 
+	mov si,0
+retry:
+	mov ax , 0x0820
+	mov es,ax
+	mov ch,0 
+	mov dh,0 
+	mov cl,2 
+	;读盘
+	mov ah,0x02 
+	mov al,1 
+	mov bx,0 
+	mov dl,0x00 
+	int 0x13  
+	jnc fin
+	
+	add si,1 
+	cmp si,5 
+	jae error 
+	
+	mov ah,0x00 
+	mov dl,0x00 
+	int 0x13 
+	jmp retry
+	
+
+error:
+	
+    
+	mov si,msg
+
 putloop:
 	MOV AL,[SI]
 	ADD SI,1     ;给SI加1
@@ -59,7 +89,7 @@ fin:
 ;信息显示部分
 msg:
 	DB 0x0a,0x0a ;换行2次
-	DB "hello,yangchao!"
+	DB "error!"
 	DB 0x0a      ;换行
 	DB 0
 RESB 0x7dfe-$  ;填写0x00,直到0x001fe

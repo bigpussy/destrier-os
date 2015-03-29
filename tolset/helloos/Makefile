@@ -17,7 +17,7 @@ run:
 	
 run_o:
 	../z_tools/make.exe run
-	../z_tools/make.exe src_o
+	../z_tools/make.exe clean
 	
 clean:
 	del ipl.bin ipl.lst
