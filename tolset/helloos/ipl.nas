@@ -41,21 +41,22 @@ entry:
 	MOV DS,AX
 	MOV ES,AX
 	MOV SI,msg
-
-	mov si,0
-retry:
 	mov ax , 0x0820
 	mov es,ax
 	mov ch,0 
 	mov dh,0 
-	mov cl,2 
+	mov cl,2
+
+readloop:
+	mov si,0
+retry:
 	;读盘
 	mov ah,0x02 
 	mov al,1 
 	mov bx,0 
 	mov dl,0x00 
 	int 0x13  
-	jnc fin
+	jnc next
 	
 	add si,1 
 	cmp si,5 
@@ -68,9 +69,21 @@ retry:
 	
 
 error:
-	
+	mov ah,0x00
+	mov dl,0x00 
+	int 0x13  
+	jmp retry
     
 	mov si,msg
+	
+next:
+	mov ax,es 
+	add ax,0x020
+	mov es,ax
+	add cl,1
+	cmp cl,18  
+	jbe  readloop
+	ja   success
 
 putloop:
 	MOV AL,[SI]
@@ -83,14 +96,23 @@ putloop:
 	INT 0x10     ;调用显卡BIOS
 	JMP putloop
 
-fin:
-	HLT          ;让CPU停止，等待指令
-	JMP fin      ;无限循环
-;信息显示部分
+success:
+	mov si ,succ
+	jmp putloop 
 msg:
 	DB 0x0a,0x0a ;换行2次
 	DB "error!"
 	DB 0x0a      ;换行
 	DB 0
+	
+succ:
+	DB "successfully load the disk"
+	DB 0
+	
+fin:
+	HLT          ;让CPU停止，等待指令
+	JMP fin      ;无限循环
+;信息显示部分
+
 RESB 0x7dfe-$  ;填写0x00,直到0x001fe
 DB 0x55,0xaa
