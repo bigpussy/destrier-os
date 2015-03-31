@@ -41,6 +41,8 @@ entry:
 	MOV DS,AX
 	MOV ES,AX
 	MOV SI,msg
+	
+	cyls equ 10
 	mov ax , 0x0820
 	mov es,ax
 	mov ch,0 
@@ -83,7 +85,16 @@ next:
 	add cl,1
 	cmp cl,18  
 	jbe  readloop
-	ja   success
+	mov cl, 1
+	add dh , 1 
+	cmp dh , 2 
+	jb  readloop 
+	mov dh, 0 
+	add ch , 1 
+	cmp ch,cyls
+	jb readloop
+	jae success
+	
 
 putloop:
 	MOV AL,[SI]
