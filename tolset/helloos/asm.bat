@@ -1,1 +1,1 @@
-..\z_tools\nask.exe ipl.nas ipl.bin
+..\z_tools\nask.exe haribote.nas haribote.sys
