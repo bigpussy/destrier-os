@@ -1,28 +1,42 @@
-ipl.bin:ipl.nas Makefile
-	../z_tools/nask.exe ipl.nas ipl.bin ipl.lst
+TOOLPATH = ../z_tools/
+MAKE = $(TOOLPATH)make.exe -r
+NASK = $(TOOLPATH)nask.exe 
+EDIMG = $(TOOLPATH)edimg.exe 
 
-helloos.img:ipl.bin Makefile
-	..\z_tools\edimg.exe imgin:../z_tools/fdimg0at.tek wbinimg src:ipl.bin len:512 from:0 to:0 imgout:helloos.img
+default:
+	$(MAKE) img
+
+ipl.bin:ipl.nas Makefile
+	$(NASK) ipl.nas ipl.bin ipl.lst
+
+helloos.img:ipl.bin haribote.sys Makefile 
+	$(EDIMG)   imgin:../z_tools/fdimg0at.tek \
+		wbinimg src:ipl.bin len:512 from:0 to:0 \
+		copy from:haribote.sys to:@: \
+		imgout:helloos.img
+haribote.sys:haribote.nas Makefile
+	$(NASK) haribote.nas haribote.sys haribote.lst
 	
 img:
-	../z_tools/make.exe -r helloos.img
+	$(MAKE) helloos.img
 	
 asm:
-	../z_tools/make.exe -r ipl.bin
+	$(MAKE) ipl.bin
 
 run:
-	../z_tools/make.exe img
+	$(MAKE) img
 	copy helloos.img ..\z_tools\qemu\fdimage0.bin
-	..\z_tools\make.exe -C ../z_tools/qemu
+	$(MAKE) -C ../z_tools/qemu
 	
 run_o:
-	../z_tools/make.exe run
-	../z_tools/make.exe clean
+	$(MAKE) run
+	$(MAKE) clean
 	
 clean:
-	del ipl.bin ipl.lst
+	del ipl.bin ipl.lst haribote.sys haribote.lst
 	
 src_o:
-	../z_tools/make.exe clean
+	$(MAKE) clean
 	del helloos.img
+	del haribote.img
 	
